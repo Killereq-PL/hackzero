@@ -1,19 +1,18 @@
 import os, sys
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QGridLayout, QHBoxLayout
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QGridLayout, QVBoxLayout, QHBoxLayout, QStackedLayout
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
 
 class FlatButton(QPushButton):
     def __init__(self, text, *args, **kwargs):
         super().__init__(text, *args, **kwargs)
-        # Button style
         self.setStyleSheet("""
             QPushButton {
                 background-color: #2196F3;
                 color: white;
                 border: none;
                 padding: 30px 20px;
-                font-size: 24px;
+                font-size: 28px;
                 border-radius: 5px;
             }
             QPushButton:hover {
@@ -23,6 +22,7 @@ class FlatButton(QPushButton):
                 background-color: #114e8a;
             }
         """)
+        self.setFont(QFont("Arial", 14))
 
 class Main(QWidget):
     def load_app(self):
@@ -45,43 +45,72 @@ class Main(QWidget):
         else:
             os.system("sudo shutdown -h now")
     
-    def exit_to_shell(self):
-        layout = QHBoxLayout()
-        layout.setContentsMargins(20, 20, 20, 20)
-        btn1 = FlatButton(f"Exit")
-        btn1.setFont(QFont("Arial", 14))
-        btn1.clicked.connect(exit)
-        btn2 = FlatButton(f"Shut Down")
-        btn2.setFont(QFont("Arial", 14))
-        #btn2.clicked.connect()
-        layout.addWidget(btn1)
-        layout.addWidget(btn2)
+    def open_menu(self, menu):
+        if menu in self.menus:
+            self.main_layout.setCurrentIndex(self.menus[menu])
     
-    def __init__(self):
-        super().__init__()
-        
-        # Window setup
-        self.setWindowTitle("HackZero")
-        self.setGeometry(0, 0, 480, 360)
-        
+    def add_to_stack(self, layout):
+        new_widget = QWidget()
+        new_widget.setLayout(layout)
+        self.main_layout.addWidget(new_widget)
+        return self.main_layout.indexOf(new_widget)
+    
+    def create_exit_menu(self):
+        layout = QVBoxLayout()
+        layout.setContentsMargins(20, 20, 20, 20)
+        layout.setSpacing(5)
+        layout1 = QHBoxLayout()
+        layout1.setContentsMargins(0, 0, 0, 0)
+        layout1.setSpacing(5)
+        btn1 = FlatButton("Exit")
+        btn1.clicked.connect(self.exit)
+        btn2 = FlatButton("Shut Down")
+        btn2.clicked.connect(self.shutdown)
+        layout1.addWidget(btn1)
+        layout1.addWidget(btn2)
+        layout.addLayout(layout1)
+        btn3 = FlatButton("Back")
+        btn3.clicked.connect(lambda: self.open_menu("main"))
+        layout.addWidget(btn3)
+        i = self.add_to_stack(layout)
+        self.menus["exit"] = i
+    
+    def create_main_menu(self):
         # Layout setup
-        self.glayout = QGridLayout()
-        self.glayout.setContentsMargins(20, 20, 20, 20)
-        self.glayout.setSpacing(5)
+        glayout = QGridLayout()
+        glayout.setContentsMargins(20, 20, 20, 20)
+        glayout.setSpacing(5)
         
         buttons = ["Load App", "Settings", "Install App(s)", "Exit/Power"]
-        callbacks = [self.load_app, self.settings, self.install_apps, self.exit_to_shell]
+        callbacks = [self.load_app, self.settings, self.install_apps, lambda: self.open_menu("exit")]
         rows = 2
         # Create buttons
         for i in range(len(buttons)):
             btn = FlatButton(f"{buttons[i]}")
-            btn.setFont(QFont("Arial", 14))
             btn.clicked.connect(callbacks[i])
             col = 0 if i < rows else 1
             row = i if i < rows else i - rows
-            self.glayout.addWidget(btn, row, col)
+            glayout.addWidget(btn, row, col)
+        i = self.add_to_stack(glayout)
+        self.menus["main"] = i
+    
+    def create_menus(self):
+        self.create_main_menu()
+        self.create_exit_menu()
+    
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("HackZero")
+        self.setGeometry(0, 0, 480, 360)
         
-        self.setLayout(self.glayout)
+        self.main_layout = QStackedLayout()
+        self.main_layout.setContentsMargins(0, 0, 0, 0)
+        self.main_layout.setSpacing(0)
+        
+        self.menus = {}
+        self.create_menus()
+        
+        self.setLayout(self.main_layout)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
