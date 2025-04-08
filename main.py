@@ -1,5 +1,5 @@
 import os, sys
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QGridLayout, QVBoxLayout, QHBoxLayout, QStackedLayout
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QGridLayout, QVBoxLayout, QHBoxLayout, QStackedLayout, QScrollArea
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
 
@@ -55,6 +55,23 @@ class Main(QWidget):
         self.main_layout.addWidget(new_widget)
         return self.main_layout.indexOf(new_widget)
     
+    def create_settings_menu(self):
+        layout = QVBoxLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(5)
+        scroll_area = QScrollArea()
+        layout1 = QVBoxLayout()
+        layout1.setContentsMargins(20, 20, 20, 20)
+        layout1.setSpacing(5)
+        setting1 = FlatButton("Setting 1")
+        setting1.clicked.connect(lambda: print("Setting 1 clicked"))
+        layout1.addWidget(setting1)
+        scroll_area.setLayout(layout1)
+        scroll_area.setWidgetResizable(False)
+        layout.addWidget(scroll_area)
+        i = self.add_to_stack(layout)
+        self.menus["settings"] = i
+    
     def create_exit_menu(self):
         layout = QVBoxLayout()
         layout.setContentsMargins(20, 20, 20, 20)
@@ -82,7 +99,7 @@ class Main(QWidget):
         glayout.setSpacing(5)
         
         buttons = ["Load App", "Settings", "Install App(s)", "Exit/Power"]
-        callbacks = [self.load_app, self.settings, self.install_apps, lambda: self.open_menu("exit")]
+        callbacks = [self.load_app, lambda: self.open_menu("settings"), self.install_apps, lambda: self.open_menu("exit")]
         rows = 2
         # Create buttons
         for i in range(len(buttons)):
@@ -96,6 +113,7 @@ class Main(QWidget):
     
     def create_menus(self):
         self.create_main_menu()
+        self.create_settings_menu()
         self.create_exit_menu()
     
     def __init__(self):
