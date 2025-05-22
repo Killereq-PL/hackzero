@@ -8,18 +8,18 @@ class FlatButton(QPushButton):
         super().__init__(text, *args, **kwargs)
         self.setStyleSheet("""
             QPushButton {
-                background-color: #2196F3;
+                background-color: #ff8000;
                 color: white;
                 border: none;
-                padding: 30px 20px;
-                font-size: 28px;
+                padding: 15px 10px;
+                font-size: 14px;
                 border-radius: 5px;
             }
             QPushButton:hover {
-                background-color: #1976D2;
+                background-color: #ff9428;
             }
             QPushButton:pressed {
-                background-color: #114e8a;
+                background-color: #b95c00;
             }
         """)
         self.setFont(QFont("Arial", 14))
@@ -119,7 +119,7 @@ class Main(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("HackZero")
-        self.setGeometry(0, 0, 480, 360)
+        self.setGeometry(0, 0, 320, 170)
         
         self.main_layout = QStackedLayout()
         self.main_layout.setContentsMargins(0, 0, 0, 0)
