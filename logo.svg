@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="48"
+   height="48"
+   viewBox="0 0 48 48"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   sodipodi:docname="logo.svg"
+   inkscape:export-filename="icon128.png"
+   inkscape:export-xdpi="256"
+   inkscape:export-ydpi="256"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <title
+     id="title4">Hackzero</title>
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#999999"
+     borderopacity="1"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     inkscape:zoom="1.4970776"
+     inkscape:cx="67.798755"
+     inkscape:cy="144.94906"
+     inkscape:window-width="1350"
+     inkscape:window-height="1032"
+     inkscape:window-x="-16"
+     inkscape:window-y="59"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#ff7f2a;stroke-width:4.53543"
+       id="rect1"
+       width="48"
+       height="48"
+       x="0"
+       y="0"
+       rx="8.1826086"
+       ry="8.1826086" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:2;stroke-dasharray:none;stroke-opacity:1"
+       d="M 21.372694,35.660517 V 10.391144 24 H 8.7380074 V 10.391144 35.660517 L 0,35.660517"
+       id="path1"
+       sodipodi:nodetypes="cccccc" />
+    <circle
+       style="fill:#ff7f2a;stroke:#ffffff;stroke-width:2;stroke-dasharray:none;stroke-opacity:1;fill-opacity:1"
+       id="path2"
+       cx="21.372694"
+       cy="35.660519"
+       r="3.2640676" />
+    <circle
+       style="fill:#ff7f2a;fill-opacity:1;stroke:#ffffff;stroke-width:2;stroke-dasharray:none;stroke-opacity:1"
+       id="path2-4"
+       cx="8.7380075"
+       cy="10.391144"
+       r="3.2640676" />
+    <path
+       style="fill:#ff7f2a;fill-opacity:1;stroke:#ffffff;stroke-width:2;stroke-dasharray:none;stroke-opacity:1"
+       d="M 29.512915,16.712177 H 42.265683 L 31.520295,35.660517 H 43.458362 L 48,35.660519"
+       id="path4"
+       sodipodi:nodetypes="cccc" />
+    <circle
+       style="fill:#ff7f2a;fill-opacity:1;stroke:#ffffff;stroke-width:2;stroke-dasharray:none;stroke-opacity:1"
+       id="path2-2"
+       cx="42.265682"
+       cy="16.712177"
+       r="3.2640676" />
+  </g>
+  <metadata
+     id="metadata4">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>Hackzero</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>
