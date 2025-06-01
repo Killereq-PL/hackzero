@@ -119,7 +119,9 @@ class Main(QWidget):
     def __init__(self, width: int, height: int):
         super().__init__()
         self.setWindowTitle("HackZero")
-        self.setGeometry(0, 0, width, height)
+        self.setWindowFlag(Qt.FramelessWindowHint)
+        self.setGeometry(10, 10, width, height)
+        self.showFullScreen()
         
         self.main_layout = QStackedLayout()
         self.main_layout.setContentsMargins(0, 0, 0, 0)
