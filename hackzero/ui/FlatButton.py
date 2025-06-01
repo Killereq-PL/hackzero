@@ -9,7 +9,7 @@ class FlatButton(QPushButton):
                 color: white;
                 border: none;
                 padding: 50px 10px;
-                font-size: 42px;
+                font-size: 48px;
                 border-radius: 10px;
             }
             QPushButton:hover {
