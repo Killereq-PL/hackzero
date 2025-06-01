@@ -2,27 +2,7 @@ import os, sys
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QGridLayout, QVBoxLayout, QHBoxLayout, QStackedLayout, QScrollArea
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
-
-class FlatButton(QPushButton):
-    def __init__(self, text, *args, **kwargs):
-        super().__init__(text, *args, **kwargs)
-        self.setStyleSheet("""
-            QPushButton {
-                background-color: #ff8000;
-                color: white;
-                border: none;
-                padding: 35px 10px;
-                font-size: 36px;
-                border-radius: 5px;
-            }
-            QPushButton:hover {
-                background-color: #ff9428;
-            }
-            QPushButton:pressed {
-                background-color: #b95c00;
-            }
-        """)
-        self.setFont(QFont("Arial", 14))
+from hackzero.ui import FlatButton
 
 class Main(QWidget):
     def load_app(self):
@@ -120,7 +100,7 @@ class Main(QWidget):
         super().__init__()
         self.setWindowTitle("HackZero")
         self.setWindowFlag(Qt.FramelessWindowHint)
-        self.setGeometry(10, 10, width, height)
+        self.setGeometry(100, 100, width, height)
         self.showFullScreen()
         
         self.main_layout = QStackedLayout()
