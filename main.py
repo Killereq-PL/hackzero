@@ -11,8 +11,8 @@ class FlatButton(QPushButton):
                 background-color: #ff8000;
                 color: white;
                 border: none;
-                padding: 15px 10px;
-                font-size: 14px;
+                padding: 35px 10px;
+                font-size: 36px;
                 border-radius: 5px;
             }
             QPushButton:hover {
@@ -116,10 +116,10 @@ class Main(QWidget):
         self.create_settings_menu()
         self.create_exit_menu()
     
-    def __init__(self):
+    def __init__(self, width: int, height: int):
         super().__init__()
         self.setWindowTitle("HackZero")
-        self.setGeometry(0, 0, 320, 170)
+        self.setGeometry(0, 0, width, height)
         
         self.main_layout = QStackedLayout()
         self.main_layout.setContentsMargins(0, 0, 0, 0)
@@ -132,6 +132,6 @@ class Main(QWidget):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    main = Main()
+    main = Main(848, 480)
     main.show()
     sys.exit(app.exec_())
