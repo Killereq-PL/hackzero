@@ -33,3 +33,5 @@ fi
 echo 'Installed hackzero.inpututils'
 
 sudo chmod +X $SCRIPT_DIR/updater.sh
+
+pip install keyboard PyQt5
