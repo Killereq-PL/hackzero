@@ -37,18 +37,21 @@ class Main(QWidget):
     
     def create_settings_menu(self):
         layout = QVBoxLayout()
-        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setContentsMargins(20, 20, 20, 20)
         layout.setSpacing(5)
         scroll_area = QScrollArea()
         layout1 = QVBoxLayout()
-        layout1.setContentsMargins(20, 20, 20, 20)
+        layout1.setContentsMargins(0, 0, 0, 0)
         layout1.setSpacing(5)
         setting1 = FlatButton("Setting 1")
         setting1.clicked.connect(lambda: print("Setting 1 clicked"))
         layout1.addWidget(setting1)
+        back = FlatButton("Back")
+        back.clicked.connect(lambda: self.open_menu("main"))
         scroll_area.setLayout(layout1)
         scroll_area.setWidgetResizable(False)
         layout.addWidget(scroll_area)
+        layout.addWidget(back)
         i = self.add_to_stack(layout)
         self.menus["settings"] = i
     
