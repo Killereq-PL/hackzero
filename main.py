@@ -3,14 +3,9 @@ from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QGridLayout, QVB
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
 from hackzero.ui.FlatButton import FlatButton
+from hackzero.ui.ListButtonView import ListButtonView
 
 class Main(QWidget):
-    def load_app(self):
-        print("Load App")
-    
-    def settings(self):
-        print("Settings")
-    
     def install_apps(self):
         print("Install App(s)")
     
@@ -34,6 +29,18 @@ class Main(QWidget):
         new_widget.setLayout(layout)
         self.main_layout.addWidget(new_widget)
         return self.main_layout.indexOf(new_widget)
+    
+    def create_load_app_menu(self):
+        layout = QVBoxLayout()
+        layout.setContentsMargins(20, 20, 20, 20)
+        layout.setSpacing(5)
+        lbv = ListButtonView()
+        layout.addWidget(lbv, True, True, True)
+        back = FlatButton("Back")
+        back.clicked.connect(lambda: self.open_menu("main"))
+        layout.addWidget(back)
+        i = self.add_to_stack(layout)
+        self.menus["load_app"] = i
     
     def create_settings_menu(self):
         layout = QVBoxLayout()
@@ -82,7 +89,7 @@ class Main(QWidget):
         glayout.setSpacing(5)
         
         buttons = ["Load App", "Settings", "Install App(s)", "Exit/Power"]
-        callbacks = [self.load_app, lambda: self.open_menu("settings"), self.install_apps, lambda: self.open_menu("exit")]
+        callbacks = [lambda: self.open_menu("load_app"), lambda: self.open_menu("settings"), self.install_apps, lambda: self.open_menu("exit")]
         rows = 2
         # Create buttons
         for i in range(len(buttons)):
@@ -96,6 +103,7 @@ class Main(QWidget):
     
     def create_menus(self):
         self.create_main_menu()
+        self.create_load_app_menu()
         self.create_settings_menu()
         self.create_exit_menu()
     
