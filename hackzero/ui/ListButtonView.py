@@ -1,7 +1,10 @@
 from PyQt5.QtWidgets import QScrollArea, QApplication, QVBoxLayout
-#from hackzero.ui.ListButtonViewItem import ListButtonViewItem
-from ListButtonViewItem import ListButtonViewItem
 import sys
+
+if __name__ != "__main__":
+    from hackzero.ui.ListButtonViewItem import ListButtonViewItem
+else:
+    from ListButtonViewItem import ListButtonViewItem
 
 class ListButtonView(QScrollArea):
     def __init__(self, data: list[dict[str, str]] = [], has_icon = False, has_extra_data = False, has_categories = False, *args, **kwargs):
@@ -12,9 +15,11 @@ class ListButtonView(QScrollArea):
         self._data : list[dict] = data
         self.buttons = []
         self.box_layout = QVBoxLayout()
-        self.box_layout.setSpacing(5)
+        self.box_layout.setContentsMargins(0, 0, 0, 0)
+        self.box_layout.setSpacing(0)
+        self.box_layout.setStretch(0, 0)
         self.setLayout(self.box_layout)
-        self.setWidgetResizable(False)
+        self.setWidgetResizable(True)
         if has_categories:
             self.bgroups : dict[str, list[dict]] = {}
             for x in self._data:
@@ -23,10 +28,11 @@ class ListButtonView(QScrollArea):
                         self.bgroups[x['category']].append(x)
                     else:
                         self.bgroups[x['category']] = []
+                        self.bgroups[x['category']].append(x)
                 else:
                     continue
         else:
-            pass
+            self.bgroups = self._data
     
     def clear(self):
         while self.box_layout.count():
@@ -37,10 +43,17 @@ class ListButtonView(QScrollArea):
     def refresh_items(self):
         self.clear()
         self.buttons.clear()
-        for x in self._data:
-            button = ListButtonViewItem(x)
-            self.box_layout.addWidget(button)
-            self.buttons.append(button)
+        if self.has_categories:
+            for key, value in self.bgroups.items():
+                for x in value:
+                    button = ListButtonViewItem(x)
+                    self.box_layout.addWidget(button)
+                    self.buttons.append(button)
+        else:
+            for x in self.bgroups:
+                button = ListButtonViewItem(x)
+                self.box_layout.addWidget(button)
+                self.buttons.append(button)
     
     def add_item(self, item_data):
         self._data.append(item_data)
@@ -84,7 +97,7 @@ if __name__ == "__main__":
         'icon': '../../icon48.png',
         'description': 'Second Test',
         'category': 'Tests'
-        }
+        },
     ]
     main = ListButtonView(lbv_data, True, True, True)
     main.setGeometry(100, 100, 848, 480)

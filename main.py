@@ -34,8 +34,36 @@ class Main(QWidget):
         layout = QVBoxLayout()
         layout.setContentsMargins(20, 20, 20, 20)
         layout.setSpacing(5)
-        lbv = ListButtonView()
-        layout.addWidget(lbv, True, True, True)
+        lbv_data = [
+            {
+            'title': 'Example1',
+            'icon': '../../icon48.png',
+            'description': 'First Example',
+            'category': 'Examples',
+            },
+            {
+            'title': 'Example2',
+            'icon': '../../icon48.png',
+            'description': 'Second Example',
+            'category': 'Examples',
+            },
+            {
+            'title': 'Test1',
+            'icon': '../../icon48.png',
+            'description': 'First Test',
+            'category': 'Tests',
+            },
+            {
+            'title': 'Test2',
+            'icon': '../../icon48.png',
+            'description': 'Second Test',
+            'category': 'Tests'
+            },
+        ]
+        lbv = ListButtonView(lbv_data, True, True, True)
+        lbv.setContentsMargins(0, 0, 0, 0)
+        lbv.refresh_items()
+        layout.addWidget(lbv)
         back = FlatButton("Back")
         back.clicked.connect(lambda: self.open_menu("main"))
         layout.addWidget(back)

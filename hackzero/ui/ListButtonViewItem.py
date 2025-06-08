@@ -1,31 +1,40 @@
-from PyQt5.QtWidgets import QAbstractButton
-from PyQt5.QtCore import QSize, QRect, QPoint, Qt
-from PyQt5.QtGui import QPainter, QTextOption, QImage
+from PyQt5.QtWidgets import QPushButton, QHBoxLayout
+from PyQt5.QtGui import QImage
 
-class ListButtonViewItem(QAbstractButton):
+class ListButtonViewItem(QPushButton):
     def __init__(self, data: list[dict], *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._data = data
-        self.setCheckable(True)
+        self.hlayout = QHBoxLayout()
+        self.hlayout.setContentsMargins(0, 0, 0, 0)
+        self.hlayout.setSpacing(5)
+        self.setLayout(self.hlayout)
+        self.create_data_view()        
+        self.setStyleSheet("""
+            QPushButton {
+                background-color: #ffffff;
+                color: #000000;
+                border: solid 1px #ff8000;
+                padding: 50px 10px;
+                font-size: 22px;
+                margin: 0px;
+            }
+            QPushButton:hover {
+                background-color: #ff9428;
+            }
+            QPushButton:pressed {
+                background-color: #b95c00;
+            }
+        """)
     
-    def sizeHint(self):
-        return QSize(100, 100)
-
-    def paintEvent(self, event):
-        if not self.isVisible():
-            return
-        painter = QPainter(self)
-        if self.isChecked():
-            self.rect().adjust(2, 2, -2, -2)
-        painter.fillRect(self.rect(), self.palette().button())
-        painter.setPen(self.palette().buttonText().color())
-        painter.setFont(self.font())
-        counter = 0
-        for x in self._data.items():
-            if x[0] == "icon":
-                painter.drawImage(self.rect(), QImage(x[1]))
+    def create_data_view(self):
+        for key, value in self._data.items():
+            if key == 'icon':
+                icon = value
+                if isinstance(icon, str):
+                    icon = QImage(icon)
+            elif key == 'category':
+                category = value
             else:
-                rect = QRect(QPoint(counter * 150, 0), QSize(self.width(), 50))
-                painter.drawText(rect, 0, x[1])
-                counter += 1
-        painter.end()
+                text = value
+                self.setText(text)
