@@ -1,25 +1,28 @@
 from PyQt5.QtWidgets import QScrollArea, QApplication, QVBoxLayout
+from PyQt5.QtCore import Qt
+
 import sys
 
 if __name__ != "__main__":
     from hackzero.ui.ListButtonViewItem import ListButtonViewItem
+    from hackzero.ui.ListButtonViewCategory import ListButtonViewCategory
 else:
     from ListButtonViewItem import ListButtonViewItem
+    from ListButtonViewCategory import ListButtonViewCategory
 
 class ListButtonView(QScrollArea):
-    def __init__(self, data: list[dict[str, str]] = [], has_icon = False, has_extra_data = False, has_categories = False, *args, **kwargs):
+    def __init__(self, data: list[dict[str, str]] = [], has_icon = False, has_categories = False, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+        self.setFrameShape(QScrollArea.Shape.NoFrame)
         self.has_icon = has_icon
-        self.has_extra_data = has_extra_data
         self.has_categories = has_categories
         self._data : list[dict] = data
         self.buttons = []
         self.box_layout = QVBoxLayout()
-        self.box_layout.setContentsMargins(0, 0, 0, 0)
-        self.box_layout.setSpacing(0)
-        self.box_layout.setStretch(0, 0)
+        #self.box_layout.setContentsMargins(0, 0, 0, 0)
+        #self.box_layout.setSpacing(0)
         self.setLayout(self.box_layout)
-        self.setWidgetResizable(True)
         if has_categories:
             self.bgroups : dict[str, list[dict]] = {}
             for x in self._data:
@@ -45,15 +48,19 @@ class ListButtonView(QScrollArea):
         self.buttons.clear()
         if self.has_categories:
             for key, value in self.bgroups.items():
+                category = ListButtonViewCategory(key)
                 for x in value:
                     button = ListButtonViewItem(x)
-                    self.box_layout.addWidget(button)
+                    category.add_button(button)
                     self.buttons.append(button)
+                self.box_layout.addWidget(category)
+                self.box_layout.addStretch()
         else:
             for x in self.bgroups:
                 button = ListButtonViewItem(x)
                 self.box_layout.addWidget(button)
                 self.buttons.append(button)
+            self.box_layout.addStretch()
     
     def add_item(self, item_data):
         self._data.append(item_data)
@@ -74,34 +81,58 @@ class ListButtonView(QScrollArea):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     lbv_data = [
-        {
-        'title': 'Example1',
-        'icon': '../../icon48.png',
-        'description': 'First Example',
-        'category': 'Examples',
-        },
-        {
-        'title': 'Example2',
-        'icon': '../../icon48.png',
-        'description': 'Second Example',
-        'category': 'Examples',
-        },
-        {
-        'title': 'Test1',
-        'icon': '../../icon48.png',
-        'description': 'First Test',
-        'category': 'Tests',
-        },
-        {
-        'title': 'Test2',
-        'icon': '../../icon48.png',
-        'description': 'Second Test',
-        'category': 'Tests'
-        },
-    ]
-    main = ListButtonView(lbv_data, True, True, True)
+            {
+            'title': 'Example1',
+            'icon': 'icon128.png',
+            'description': 'First Example',
+            'category': 'Examples',
+            },
+            {
+            'title': 'Example2',
+            'icon': 'icon128.png',
+            'description': 'Second Example',
+            'category': 'Examples',
+            },
+            {
+            'title': 'Example3',
+            'icon': 'icon128.png',
+            'description': 'Third Example',
+            'category': 'Examples',
+            },
+            {
+            'title': 'Example4',
+            'icon': 'icon128.png',
+            'description': 'Fourth Example',
+            'category': 'Examples',
+            },
+            {
+            'title': 'Test1',
+            'icon': 'icon128.png',
+            'description': 'First Test',
+            'category': 'Tests',
+            },
+            {
+            'title': 'Test2',
+            'icon': 'icon128.png',
+            'description': 'Second Test',
+            'category': 'Tests'
+            },
+            {
+            'title': 'Test3',
+            'icon': 'icon128.png',
+            'description': 'Third Test',
+            'category': 'Tests',
+            },
+            {
+            'title': 'Test4',
+            'icon': 'icon128.png',
+            'description': 'Fourth Test',
+            'category': 'Tests'
+            }
+        ]
+    main = ListButtonView(lbv_data, True, True)
     main.setGeometry(100, 100, 848, 480)
-    main.setContentsMargins(20, 20, 20, 20)
+    main.setWidgetResizable(True)
     main.refresh_items()
     main.show()
     sys.exit(app.exec_())

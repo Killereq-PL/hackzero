@@ -1,5 +1,6 @@
-from PyQt5.QtWidgets import QPushButton, QHBoxLayout
-from PyQt5.QtGui import QImage
+from PyQt5.QtWidgets import QPushButton, QHBoxLayout, QLabel, QSpacerItem, QSizePolicy
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import Qt
 
 class ListButtonViewItem(QPushButton):
     def __init__(self, data: list[dict], *args, **kwargs):
@@ -9,15 +10,15 @@ class ListButtonViewItem(QPushButton):
         self.hlayout.setContentsMargins(0, 0, 0, 0)
         self.hlayout.setSpacing(5)
         self.setLayout(self.hlayout)
-        self.create_data_view()        
-        self.setStyleSheet("""
+        self.create_data_view()
+        self.setMinimumHeight(134)
+        self.setMaximumHeight(134)
+        self.setStyleSheet('''
             QPushButton {
-                background-color: #ffffff;
+                background-color: #e1e1e1;
                 color: #000000;
-                border: solid 1px #ff8000;
                 padding: 50px 10px;
                 font-size: 22px;
-                margin: 0px;
             }
             QPushButton:hover {
                 background-color: #ff9428;
@@ -25,16 +26,23 @@ class ListButtonViewItem(QPushButton):
             QPushButton:pressed {
                 background-color: #b95c00;
             }
-        """)
+        ''')
     
     def create_data_view(self):
+        if 'icon' in self._data:
+            icon = self._data['icon']
+            if isinstance(icon, str):
+                icon = QPixmap(icon)
+                icon_label = QLabel()
+                icon_label.setPixmap(icon.scaledToHeight(128, mode=Qt.TransformationMode.FastTransformation))
+                self.hlayout.addWidget(icon_label)
         for key, value in self._data.items():
             if key == 'icon':
-                icon = value
-                if isinstance(icon, str):
-                    icon = QImage(icon)
+                continue
             elif key == 'category':
-                category = value
+                continue
             else:
                 text = value
-                self.setText(text)
+                label = QLabel(text)
+                label.setStyleSheet("font-size: 18px; color: #000000;")
+                self.hlayout.addWidget(label)

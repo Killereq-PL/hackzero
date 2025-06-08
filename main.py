@@ -37,30 +37,54 @@ class Main(QWidget):
         lbv_data = [
             {
             'title': 'Example1',
-            'icon': '../../icon48.png',
+            'icon': 'icon128.png',
             'description': 'First Example',
             'category': 'Examples',
             },
             {
             'title': 'Example2',
-            'icon': '../../icon48.png',
+            'icon': 'icon128.png',
             'description': 'Second Example',
             'category': 'Examples',
             },
             {
+            'title': 'Example3',
+            'icon': 'icon128.png',
+            'description': 'Third Example',
+            'category': 'Examples',
+            },
+            {
+            'title': 'Example4',
+            'icon': 'icon128.png',
+            'description': 'Fourth Example',
+            'category': 'Examples',
+            },
+            {
             'title': 'Test1',
-            'icon': '../../icon48.png',
+            'icon': 'icon128.png',
             'description': 'First Test',
             'category': 'Tests',
             },
             {
             'title': 'Test2',
-            'icon': '../../icon48.png',
+            'icon': 'icon128.png',
             'description': 'Second Test',
             'category': 'Tests'
             },
+            {
+            'title': 'Test3',
+            'icon': 'icon128.png',
+            'description': 'Third Test',
+            'category': 'Tests',
+            },
+            {
+            'title': 'Test4',
+            'icon': 'icon128.png',
+            'description': 'Fourth Test',
+            'category': 'Tests'
+            }
         ]
-        lbv = ListButtonView(lbv_data, True, True, True)
+        lbv = ListButtonView(lbv_data, True, True)
         lbv.setContentsMargins(0, 0, 0, 0)
         lbv.refresh_items()
         layout.addWidget(lbv)
