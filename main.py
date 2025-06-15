@@ -92,6 +92,13 @@ class Main(QWidget):
                         'description': {'width': 400}
                     },
                     'shown': True
+                },
+                'Tests': {
+                    'columns': {
+                        'title': {'width': 200},
+                        'description': {'width': 400}
+                    },
+                    'shown': True
                 }
             },
         }
