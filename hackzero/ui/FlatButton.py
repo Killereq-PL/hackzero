@@ -8,9 +8,9 @@ class FlatButton(QPushButton):
                 background-color: #ff8000;
                 color: white;
                 border: none;
-                padding: 80px 10px;
-                font-size: 52px;
-                border-radius: 5px;
+                padding: 50px 10px;
+                font-size: 48px;
+                border-radius: 10px;
             }
             QPushButton:hover {
                 background-color: #ff9428;

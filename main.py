@@ -3,14 +3,9 @@ from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QGridLayout, QVB
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
 from hackzero.ui.FlatButton import FlatButton
+from hackzero.ui.ListButtonView import ListButtonView
 
 class Main(QWidget):
-    def load_app(self):
-        print("Load App")
-    
-    def settings(self):
-        print("Settings")
-    
     def install_apps(self):
         print("Install App(s)")
     
@@ -35,20 +30,119 @@ class Main(QWidget):
         self.main_layout.addWidget(new_widget)
         return self.main_layout.indexOf(new_widget)
     
+    def create_load_app_menu(self):
+        layout = QVBoxLayout()
+        layout.setContentsMargins(20, 20, 20, 20)
+        layout.setSpacing(5)
+        lbv_data = [
+            {
+            'title': 'Example1',
+            'icon': 'icon128.png',
+            'description': 'First Example',
+            'category': 'Examples',
+            },
+            {
+            'title': 'Example2',
+            'icon': 'icon128.png',
+            'description': 'Second Example',
+            'category': 'Examples',
+            },
+            {
+            'title': 'Example3',
+            'icon': 'icon128.png',
+            'description': 'Third Example',
+            'category': 'Examples',
+            },
+            {
+            'title': 'Example4',
+            'icon': 'icon128.png',
+            'description': 'Fourth Example',
+            'category': 'Examples',
+            },
+            {
+            'title': 'Test1',
+            'icon': 'icon128.png',
+            'description': 'First Test',
+            'category': 'Tests',
+            },
+            {
+            'title': 'Test2',
+            'icon': 'icon128.png',
+            'description': 'Second Test',
+            'category': 'Tests'
+            },
+            {
+            'title': 'Test3',
+            'icon': 'icon128.png',
+            'description': 'Third Test',
+            'category': 'Tests',
+            },
+            {
+            'title': 'Test4',
+            'icon': 'icon128.png',
+            'description': 'Fourth Test',
+            'category': 'Tests'
+            }
+        ]
+        lbv_settings = {
+            'categories': {
+                'Examples': {
+                    'columns': {
+                        'title': {'width': 200},
+                        'description': {'width': 400}
+                    },
+                    'shown': True
+                },
+                'Tests': {
+                    'columns': {
+                        'title': {'width': 200},
+                        'description': {'width': 400}
+                    },
+                    'shown': True
+                }
+            },
+        }
+        
+        lbv = ListButtonView(lbv_data, True, lbv_settings)
+        lbv.setContentsMargins(0, 0, 0, 0)
+        lbv.refresh_items()
+        layout.addWidget(lbv)
+        back = FlatButton("Back")
+        back.clicked.connect(lambda: self.open_menu("main"))
+        layout.addWidget(back)
+        i = self.add_to_stack(layout)
+        self.menus["load_app"] = i
+    
+    def create_install_app_menu(self):
+        layout = QVBoxLayout()
+        layout.setContentsMargins(20, 20, 20, 20)
+        layout.setSpacing(5)
+        install_button = FlatButton("Install App(s)")
+        install_button.clicked.connect(self.install_apps)
+        layout.addWidget(install_button)
+        back = FlatButton("Back")
+        back.clicked.connect(lambda: self.open_menu("main"))
+        layout.addWidget(back)
+        i = self.add_to_stack(layout)
+        self.menus["install_app"] = i
+    
     def create_settings_menu(self):
         layout = QVBoxLayout()
-        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setContentsMargins(20, 20, 20, 20)
         layout.setSpacing(5)
         scroll_area = QScrollArea()
         layout1 = QVBoxLayout()
-        layout1.setContentsMargins(20, 20, 20, 20)
+        layout1.setContentsMargins(0, 0, 0, 0)
         layout1.setSpacing(5)
         setting1 = FlatButton("Setting 1")
         setting1.clicked.connect(lambda: print("Setting 1 clicked"))
         layout1.addWidget(setting1)
+        back = FlatButton("Back")
+        back.clicked.connect(lambda: self.open_menu("main"))
         scroll_area.setLayout(layout1)
         scroll_area.setWidgetResizable(False)
         layout.addWidget(scroll_area)
+        layout.addWidget(back)
         i = self.add_to_stack(layout)
         self.menus["settings"] = i
     
@@ -79,7 +173,7 @@ class Main(QWidget):
         glayout.setSpacing(5)
         
         buttons = ["Load App", "Settings", "Install App(s)", "Exit/Power"]
-        callbacks = [self.load_app, lambda: self.open_menu("settings"), self.install_apps, lambda: self.open_menu("exit")]
+        callbacks = [lambda: self.open_menu("load_app"), lambda: self.open_menu("settings"), lambda: self.open_menu("install_app"), lambda: self.open_menu("exit")]
         rows = 2
         # Create buttons
         for i in range(len(buttons)):
@@ -93,6 +187,8 @@ class Main(QWidget):
     
     def create_menus(self):
         self.create_main_menu()
+        self.create_load_app_menu()
+        self.create_install_app_menu()
         self.create_settings_menu()
         self.create_exit_menu()
     
