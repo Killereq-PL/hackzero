@@ -84,7 +84,19 @@ class Main(QWidget):
             'category': 'Tests'
             }
         ]
-        lbv = ListButtonView(lbv_data, True, True)
+        lbv_settings = {
+            'categories': {
+                'Examples': {
+                    'columns': {
+                        'title': {'width': 200},
+                        'description': {'width': 400}
+                    },
+                    'shown': True
+                }
+            },
+        }
+        
+        lbv = ListButtonView(lbv_data, True, lbv_settings)
         lbv.setContentsMargins(0, 0, 0, 0)
         lbv.refresh_items()
         layout.addWidget(lbv)
@@ -93,6 +105,19 @@ class Main(QWidget):
         layout.addWidget(back)
         i = self.add_to_stack(layout)
         self.menus["load_app"] = i
+    
+    def create_install_app_menu(self):
+        layout = QVBoxLayout()
+        layout.setContentsMargins(20, 20, 20, 20)
+        layout.setSpacing(5)
+        install_button = FlatButton("Install App(s)")
+        install_button.clicked.connect(self.install_apps)
+        layout.addWidget(install_button)
+        back = FlatButton("Back")
+        back.clicked.connect(lambda: self.open_menu("main"))
+        layout.addWidget(back)
+        i = self.add_to_stack(layout)
+        self.menus["install_app"] = i
     
     def create_settings_menu(self):
         layout = QVBoxLayout()
@@ -141,7 +166,7 @@ class Main(QWidget):
         glayout.setSpacing(5)
         
         buttons = ["Load App", "Settings", "Install App(s)", "Exit/Power"]
-        callbacks = [lambda: self.open_menu("load_app"), lambda: self.open_menu("settings"), self.install_apps, lambda: self.open_menu("exit")]
+        callbacks = [lambda: self.open_menu("load_app"), lambda: self.open_menu("settings"), lambda: self.open_menu("install_app"), lambda: self.open_menu("exit")]
         rows = 2
         # Create buttons
         for i in range(len(buttons)):
@@ -156,6 +181,7 @@ class Main(QWidget):
     def create_menus(self):
         self.create_main_menu()
         self.create_load_app_menu()
+        self.create_install_app_menu()
         self.create_settings_menu()
         self.create_exit_menu()
     

@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QScrollArea, QApplication, QVBoxLayout
+from PyQt5.QtWidgets import QScrollArea, QApplication, QVBoxLayout, QWidget
 from PyQt5.QtCore import Qt
 
 import sys
@@ -11,18 +11,26 @@ else:
     from ListButtonViewCategory import ListButtonViewCategory
 
 class ListButtonView(QScrollArea):
-    def __init__(self, data: list[dict[str, str]] = [], has_icon = False, has_categories = False, *args, **kwargs):
+    def __init__(self, data: list[dict[str, str]] = [], has_categories = False, settings = {}, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+        self.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+        self.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.setFrameShape(QScrollArea.Shape.NoFrame)
-        self.has_icon = has_icon
         self.has_categories = has_categories
-        self._data : list[dict] = data
+        if has_categories:
+            self._data : list[dict] = sorted(data, key=lambda x: x['category'])
+        else:
+            self._data : list[dict] = data
         self.buttons = []
         self.box_layout = QVBoxLayout()
-        #self.box_layout.setContentsMargins(0, 0, 0, 0)
-        #self.box_layout.setSpacing(0)
-        self.setLayout(self.box_layout)
+        self.box_layout.setContentsMargins(0, 0, 0, 0)
+        self.box_layout.setSpacing(0)
+        self.container = QWidget()
+        self.container.setLayout(self.box_layout)
+        self.setWidget(self.container)
+        self.setWidgetResizable(True)
+        self.box_layout.setStretch(0, 0)
+        self.box_layout.setStretch(1, 0)
         if has_categories:
             self.bgroups : dict[str, list[dict]] = {}
             for x in self._data:
@@ -54,13 +62,13 @@ class ListButtonView(QScrollArea):
                     category.add_button(button)
                     self.buttons.append(button)
                 self.box_layout.addWidget(category)
-                self.box_layout.addStretch()
+                #self.box_layout.addStretch()
         else:
             for x in self.bgroups:
                 button = ListButtonViewItem(x)
                 self.box_layout.addWidget(button)
                 self.buttons.append(button)
-            self.box_layout.addStretch()
+            #self.box_layout.addStretch()
     
     def add_item(self, item_data):
         self._data.append(item_data)
@@ -130,7 +138,7 @@ if __name__ == "__main__":
             'category': 'Tests'
             }
         ]
-    main = ListButtonView(lbv_data, True, True)
+    main = ListButtonView(lbv_data, True)
     main.setGeometry(100, 100, 848, 480)
     main.setWidgetResizable(True)
     main.refresh_items()
