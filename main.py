@@ -106,10 +106,13 @@ class Main(QWidget):
         lbv = ListButtonView(lbv_data, True, lbv_settings)
         lbv.setContentsMargins(0, 0, 0, 0)
         lbv.refresh_items()
-        layout.addWidget(lbv)
+        layout.addWidget(lbv, 5)
+        buttons_layout = QHBoxLayout()
+        buttons_layout.setContentsMargins(0, 0, 0, 0)
         back = FlatButton("Back")
         back.clicked.connect(lambda: self.open_menu("main"))
-        layout.addWidget(back)
+        buttons_layout.addWidget(back)
+        layout.addLayout(buttons_layout)
         i = self.add_to_stack(layout)
         self.menus["load_app"] = i
     
@@ -197,7 +200,8 @@ class Main(QWidget):
         self.setWindowTitle("HackZero")
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setGeometry(100, 100, width, height)
-        self.showFullScreen()
+        if "--fullscreen" in sys.argv:
+            self.showFullScreen()
         
         self.main_layout = QStackedLayout()
         self.main_layout.setContentsMargins(0, 0, 0, 0)

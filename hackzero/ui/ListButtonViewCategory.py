@@ -11,16 +11,18 @@ class ListButtonViewCategory(QWidget):
         arrow_layout.setAlignment(Qt.AlignmentFlag.AlignRight)
         self.arrows = ["⮝", "⮟"]
         self.arrow = QLabel(self.arrows[1])
-        self.arrow.setStyleSheet('font-size: 38px; font-weight: bold; padding: 10px; color: white;')
+        self.arrow.setStyleSheet('font-size: 32px; font-weight: bold; padding: 10px; color: white;')
         arrow_layout.addWidget(self.arrow)
         self.header.setLayout(arrow_layout)
         self.header.setStyleSheet('''
         QPushButton {
-            font-size: 38px;
+            font-size: 32px;
             font-weight: bold;
             padding: 10px;
             background-color: #ff8000;
             color: white;
+            border: none;
+            margin: 5px 0px;
         }
         QPushButton:hover {
             background-color: #ff9428;
@@ -30,8 +32,8 @@ class ListButtonViewCategory(QWidget):
         }
         ''')
         self.header.setEnabled(True)
-        self.header.setMinimumHeight(120)
-        self.header.setMaximumHeight(120)
+        self.header.setMinimumHeight(65)
+        self.header.setMaximumHeight(65)
         self.vlayout = QVBoxLayout()
         self.vlayout.setContentsMargins(0, 0, 0, 0)
         self.vlayout.setSpacing(5)

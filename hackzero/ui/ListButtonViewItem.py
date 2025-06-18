@@ -11,13 +11,14 @@ class ListButtonViewItem(QPushButton):
         self.hlayout.setSpacing(2)
         self.setLayout(self.hlayout)
         self.create_data_view()
-        self.setMinimumHeight(140)
-        self.setMaximumHeight(140)
+        self.setMinimumHeight(75)
+        self.setMaximumHeight(75)
         self.setStyleSheet('''
             QPushButton {
                 background-color: #fefefe;
                 color: #000000;
                 padding: 50px 10px;
+                border: none;
             }
             QPushButton:hover {
                 background-color: #ff9428;
@@ -37,7 +38,7 @@ class ListButtonViewItem(QPushButton):
             if isinstance(icon, str):
                 icon = QPixmap(icon)
                 icon_label = QLabel()
-                icon_label.setPixmap(icon.scaledToHeight(74, mode=Qt.TransformationMode.SmoothTransformation))
+                icon_label.setPixmap(icon.scaledToHeight(65, mode=Qt.TransformationMode.SmoothTransformation))
                 icon_label.setContentsMargins(5, 2, 5, 2)
                 self.hlayout.addWidget(icon_label)
         for key, value in self._data.items():
@@ -48,5 +49,5 @@ class ListButtonViewItem(QPushButton):
             else:
                 text = value
                 label = QLabel(text)
-                label.setStyleSheet("font-size: 38px; color: #000000; font-weight: bold;")
+                label.setStyleSheet("font-size: 28px; color: #000000; font-weight: bold;")
                 self.hlayout.addWidget(label)
