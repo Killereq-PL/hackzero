@@ -200,7 +200,7 @@ class Main(QWidget):
         super().__init__()
         self.setWindowTitle("HackZero")
         self.setWindowFlag(Qt.FramelessWindowHint)
-        self.setGeometry(100, 100, width, height)
+        self.setGeometry(10, 10, width, height)
         if "--fullscreen" in sys.argv:
             self.showFullScreen()
         
