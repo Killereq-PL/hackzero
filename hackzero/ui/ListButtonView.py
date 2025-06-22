@@ -7,7 +7,7 @@ from hackzero.ui.ListButtonViewCategory import ListButtonViewCategory
 import sys
 
 class ListButtonView(QScrollArea):
-    def __init__(self, data: list[dict[str, str]] = [], has_categories = False, settings = {}, *args, **kwargs):
+    def __init__(self, data : list = [], has_categories = False, settings : dict = {}, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)

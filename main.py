@@ -112,6 +112,7 @@ class Main(QWidget):
         back = FlatButton("Back")
         back.clicked.connect(lambda: self.open_menu("main"))
         buttons_layout.addWidget(back)
+        back.setMaximumHeight(100)
         layout.addLayout(buttons_layout)
         i = self.add_to_stack(layout)
         self.menus["load_app"] = i
