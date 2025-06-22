@@ -215,6 +215,6 @@ class Main(QWidget):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    main = Main(848, 480)
+    main = Main(720, 480)
     main.show()
     sys.exit(app.exec_())
