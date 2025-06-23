@@ -315,6 +315,6 @@ class Main(QWidget):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    main = Main(720, 480, app.desktop().screenGeometry())
+    main = Main(640, 340, app.desktop().screenGeometry())
     main.show()
     sys.exit(app.exec_())

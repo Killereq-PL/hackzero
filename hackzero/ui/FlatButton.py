@@ -1,4 +1,5 @@
 from PyQt5.QtWidgets import QPushButton
+from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
 
 class FlatButton(QPushButton):
@@ -28,6 +29,7 @@ class FlatButton(QPushButton):
                 background-color: #c46200;
             }
         """)
+        self.setFont(QFont("Arial", 48))
         self.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         self.setMinimumHeight(20)
         self.setMinimumWidth(20)
