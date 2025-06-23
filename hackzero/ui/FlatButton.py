@@ -29,3 +29,5 @@ class FlatButton(QPushButton):
             }
         """)
         self.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+        self.setMinimumHeight(20)
+        self.setMinimumWidth(20)

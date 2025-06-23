@@ -9,6 +9,9 @@ class Main(QWidget):
     def install_apps(self):
         print("Install App(s)")
     
+    def load_app(self):
+        print("Load App")
+    
     def exit(self):
         print("Exiting...")
         sys.exit(0)
@@ -31,6 +34,8 @@ class Main(QWidget):
         return self.main_layout.indexOf(new_widget)
     
     def create_load_app_menu(self):
+        stacked_layout = QStackedLayout()
+        stacked_layout.setContentsMargins(0, 0, 0, 0)
         layout = QVBoxLayout()
         layout.setContentsMargins(20, 20, 20, 20)
         layout.setSpacing(5)
@@ -106,6 +111,7 @@ class Main(QWidget):
         lbv = ListButtonView(lbv_data, True, lbv_settings)
         lbv.setContentsMargins(0, 0, 0, 0)
         lbv.refresh_items()
+        lbv.setButtonClickedCallback(lambda x: stacked_layout.setCurrentIndex(1))
         layout.addWidget(lbv, 5)
         buttons_layout = QHBoxLayout()
         buttons_layout.setContentsMargins(0, 0, 0, 0)
@@ -114,7 +120,29 @@ class Main(QWidget):
         buttons_layout.addWidget(back)
         back.setMaximumHeight(100)
         layout.addLayout(buttons_layout)
-        i = self.add_to_stack(layout)
+        widget1 = QWidget()
+        widget1.setLayout(layout)
+        
+        popup_layout = QVBoxLayout()
+        popup_layout.setContentsMargins(20, 20, 20, 20)
+        button1 = FlatButton("Load App")
+        button2 = FlatButton("Configure App")
+        button3 = FlatButton("Cancel")
+        popup_layout.addWidget(button1)
+        popup_layout.addWidget(button2)
+        popup_layout.addWidget(button3)
+        button1.setStyleSheet("color: white; background-color: #444; padding: 30% 20%; font-size: 48px; border-radius: 10px;")
+        button2.setStyleSheet("color: white; background-color: #444; padding: 30% 20%; font-size: 48px; border-radius: 10px;")
+        button3.setStyleSheet("color: white; background-color: #444; padding: 30% 20%; font-size: 48px; border-radius: 10px;")
+        widget2 = QWidget()
+        widget2.setLayout(popup_layout)
+        button1.clicked.connect(lambda: self.load_app())
+        button2.clicked.connect(lambda: print("Configure App clicked"))
+        button3.clicked.connect(lambda: stacked_layout.setCurrentIndex(0))
+        
+        stacked_layout.addWidget(widget1)
+        stacked_layout.addWidget(widget2)
+        i = self.add_to_stack(stacked_layout)
         self.menus["load_app"] = i
     
     def create_install_app_menu(self):
@@ -141,8 +169,8 @@ class Main(QWidget):
         layout1.setSpacing(5)
         setting1 = FlatButton("Screen Resolution")
         setting1.clicked.connect(lambda: self.open_menu("settings_screen_adjust"))
-        setting2 = FlatButton("Setting 2")
-        setting2.clicked.connect(lambda: print("Setting 2 clicked"))
+        setting2 = FlatButton("Bluetooth Settings")
+        setting2.clicked.connect(lambda: self.open_menu("settings_bluetooth"))
         layout1.addWidget(setting1)
         layout1.addWidget(setting2)
         back = FlatButton("Back")
@@ -193,6 +221,32 @@ class Main(QWidget):
         layout.addLayout(buttons_layout)
         i = self.add_to_stack(layout)
         self.menus["settings_screen_adjust"] = i
+        
+        # MENU 2 : BLUETOOTH SETTINGS
+        layout = QVBoxLayout()
+        layout.setContentsMargins(20, 20, 20, 20)
+        layout.setSpacing(5)
+        bluetooth_label = FlatButton("Bluetooth Settings")
+        bluetooth_label.setEnabled(False)
+        bluetooth_label.setFont(QFont("Arial", 26))
+        bluetooth_label.setStyleSheet("color: white; background-color: #444; padding: 10px; border-radius: 5px;")
+        layout.addWidget(bluetooth_label)
+        bluetooth_info = FlatButton("Bluetooth is not available on this system.")
+        bluetooth_info.setEnabled(False)
+        bluetooth_info.setFont(QFont("Arial", 18))
+        bluetooth_info.setStyleSheet("color: white; background-color: #333; padding: 10px; border-radius: 5px;")
+        layout.addWidget(bluetooth_info)
+        buttons_layout = QHBoxLayout()
+        buttons_layout.setContentsMargins(0, 0, 0, 0)
+        buttons_layout.setSpacing(5)
+        buttons_layout.addStretch()
+        buttons_layout.addWidget(FlatButton("Enable Bluetooth (Not Implemented)"))
+        layout.addLayout(buttons_layout)
+        back = FlatButton("Back")
+        back.clicked.connect(lambda: self.open_menu("main"))
+        layout.addWidget(back)
+        i = self.add_to_stack(layout)
+        self.menus["settings_bluetooth"] = i
     
     def create_exit_menu(self):
         layout = QVBoxLayout()
@@ -240,7 +294,7 @@ class Main(QWidget):
         self.create_settings_menu()
         self.create_exit_menu()
     
-    def __init__(self, width: int, height: int):
+    def __init__(self, width: int, height: int, screen_geometry, *args, **kwargs):
         super().__init__()
         self.setWindowTitle("HackZero")
         self.setWindowFlags(self.windowFlags() | Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)
@@ -248,6 +302,7 @@ class Main(QWidget):
         
         if "--fullscreen" in sys.argv:
             self.showFullScreen()
+            self.setGeometry(screen_geometry)
         
         self.main_layout = QStackedLayout()
         self.main_layout.setContentsMargins(0, 0, 0, 0)
@@ -260,6 +315,6 @@ class Main(QWidget):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    main = Main(720, 480)
+    main = Main(720, 480, app.desktop().screenGeometry())
     main.show()
     sys.exit(app.exec_())
