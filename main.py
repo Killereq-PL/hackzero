@@ -131,9 +131,33 @@ class Main(QWidget):
         popup_layout.addWidget(button1)
         popup_layout.addWidget(button2)
         popup_layout.addWidget(button3)
-        button1.setStyleSheet("color: white; background-color: #444; padding: 30% 20%; font-size: 48px; border-radius: 10px;")
-        button2.setStyleSheet("color: white; background-color: #444; padding: 30% 20%; font-size: 48px; border-radius: 10px;")
-        button3.setStyleSheet("color: white; background-color: #444; padding: 30% 20%; font-size: 48px; border-radius: 10px;")
+        popup_style = """
+            QPushButton {
+                background-color: #444;
+                color: white;
+                border: none;
+                padding: 20% 10%;
+                font-size: 36px;
+                border-radius: 10px;
+            }
+            QPushButton:hover {
+                background-color: #555;
+            }
+            QPushButton:pressed {
+                background-color: #333;
+            }
+            QPushButton:disabled {
+                background-color: #333;
+                color: #666666;
+            }
+            QPushButton:focus {
+                outline: none;
+                background-color: #555;
+            }
+        """
+        button1.setStyleSheet(popup_style)
+        button2.setStyleSheet(popup_style)
+        button3.setStyleSheet(popup_style)
         widget2 = QWidget()
         widget2.setLayout(popup_layout)
         button1.clicked.connect(lambda: self.load_app())
@@ -173,6 +197,8 @@ class Main(QWidget):
         setting2.clicked.connect(lambda: self.open_menu("settings_bluetooth"))
         layout1.addWidget(setting1)
         layout1.addWidget(setting2)
+        layout1.setStretch(0, 0)
+        layout1.setStretch(1, 0)
         back = FlatButton("Back")
         back.clicked.connect(lambda: self.open_menu("main"))
         container.setLayout(layout1)
