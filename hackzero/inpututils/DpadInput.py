@@ -66,8 +66,8 @@ class DpadInput():
                     mouse.move(10, 0, absolute=False, duration=0.1)
         
         for x in self.button_map.items():
-            x[0].when_pressed = lambda: press_callback(self, x)
-            x[0].when_released = lambda: release_callback(self, x)
+            x[0].when_activated = lambda: press_callback(self, x)
+            x[0].when_deactivated = lambda: release_callback(self, x)
             if x[0] != self.ok_btn:
                 x[0].when_held = lambda: hold_callback(self, x)
         
