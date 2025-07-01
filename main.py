@@ -166,17 +166,19 @@ class Main(QWidget):
         widget2.setLayout(popup_layout)
         widget2.setStyleSheet("background-color: rgba(0, 0, 0, 0.7);")
         widget2.hide()
+        self.lbv_current_item = None
         button1.clicked.connect(lambda: self.load_app())
         button2.clicked.connect(lambda: print("Configure App clicked"))
         def hide_popup():
             widget2.hide()
             blur.setBlurRadius(0)
         
-        def show_popup():
+        def show_popup(self, item):
             widget2.show()
             blur.setBlurRadius(10)
+            button1.setText(f"Load {item.data['title']}")
         button3.clicked.connect(lambda: hide_popup())
-        lbv.set_button_callback(lambda x: show_popup())
+        lbv.set_button_callback(lambda item: show_popup(self, item))
         
         stacked_layout.addWidget(widget1)
         stacked_layout.addWidget(widget2)

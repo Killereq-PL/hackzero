@@ -12,6 +12,8 @@ class ListButtonView(QScrollArea):
         self.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.setFrameShape(QScrollArea.Shape.NoFrame)
+        self._current_item = None
+        self.settings = settings
         self.has_categories = has_categories
         if has_categories:
             self._data : list[dict] = sorted(data, key=lambda x: x['category'])
@@ -76,10 +78,10 @@ class ListButtonView(QScrollArea):
         else:
             self._data.append(new_item_data)
     
+    def _btncallback(self, callback, button):
+        self._current_item = button
+        callback(button)
+    
     def set_button_callback(self, callback):
         for button in self.buttons:
-            button.clicked.connect(lambda: callback(button))
-    
-    @property
-    def item_index(self):
-        pass
+            button.clicked.connect(lambda: self._btncallback(callback, button))
