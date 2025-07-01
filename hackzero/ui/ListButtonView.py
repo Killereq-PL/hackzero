@@ -78,7 +78,7 @@ class ListButtonView(QScrollArea):
     
     def set_button_callback(self, callback):
         for button in self.buttons:
-            button.clicked.connect(callback)
+            button.clicked.connect(lambda: callback(button))
     
     @property
     def item_index(self):

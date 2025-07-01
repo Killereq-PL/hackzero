@@ -1,5 +1,5 @@
 import os, sys
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QGridLayout, QVBoxLayout, QHBoxLayout, QStackedLayout, QScrollArea
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QGridLayout, QVBoxLayout, QHBoxLayout, QStackedLayout, QScrollArea, QGraphicsBlurEffect
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
 from hackzero.ui.FlatButton import FlatButton
@@ -36,6 +36,7 @@ class Main(QWidget):
     def create_load_app_menu(self):
         stacked_layout = QStackedLayout()
         stacked_layout.setContentsMargins(0, 0, 0, 0)
+        stacked_layout.setStackingMode(QStackedLayout.StackingMode.StackAll)
         layout = QVBoxLayout()
         layout.setContentsMargins(20, 20, 20, 20)
         layout.setSpacing(5)
@@ -111,7 +112,6 @@ class Main(QWidget):
         lbv = ListButtonView(lbv_data, True, lbv_settings)
         lbv.setContentsMargins(0, 0, 0, 0)
         lbv.refresh_items()
-        lbv.set_button_callback(lambda x: stacked_layout.setCurrentIndex(1))
         layout.addWidget(lbv, 5)
         buttons_layout = QHBoxLayout()
         buttons_layout.setContentsMargins(0, 0, 0, 0)
@@ -158,11 +158,25 @@ class Main(QWidget):
         button1.setStyleSheet(popup_style)
         button2.setStyleSheet(popup_style)
         button3.setStyleSheet(popup_style)
+        blur = QGraphicsBlurEffect()
+        blur.setBlurRadius(0)
+        blur.setBlurHints(QGraphicsBlurEffect.BlurHint.QualityHint)
+        widget1.setGraphicsEffect(blur)
         widget2 = QWidget()
         widget2.setLayout(popup_layout)
+        widget2.setStyleSheet("background-color: rgba(0, 0, 0, 0.7);")
+        widget2.hide()
         button1.clicked.connect(lambda: self.load_app())
         button2.clicked.connect(lambda: print("Configure App clicked"))
-        button3.clicked.connect(lambda: stacked_layout.setCurrentIndex(0))
+        def hide_popup():
+            widget2.hide()
+            blur.setBlurRadius(0)
+        
+        def show_popup():
+            widget2.show()
+            blur.setBlurRadius(10)
+        button3.clicked.connect(lambda: hide_popup())
+        lbv.set_button_callback(lambda x: show_popup())
         
         stacked_layout.addWidget(widget1)
         stacked_layout.addWidget(widget2)
@@ -197,8 +211,6 @@ class Main(QWidget):
         setting2.clicked.connect(lambda: self.open_menu("settings_bluetooth"))
         layout1.addWidget(setting1)
         layout1.addWidget(setting2)
-        layout1.setStretch(0, 0)
-        layout1.setStretch(1, 0)
         back = FlatButton("Back")
         back.clicked.connect(lambda: self.open_menu("main"))
         container.setLayout(layout1)
