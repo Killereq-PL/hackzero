@@ -111,7 +111,7 @@ class Main(QWidget):
         lbv = ListButtonView(lbv_data, True, lbv_settings)
         lbv.setContentsMargins(0, 0, 0, 0)
         lbv.refresh_items()
-        lbv.setButtonClickedCallback(lambda x: stacked_layout.setCurrentIndex(1))
+        lbv.set_button_callback(lambda x: stacked_layout.setCurrentIndex(1))
         layout.addWidget(lbv, 5)
         buttons_layout = QHBoxLayout()
         buttons_layout.setContentsMargins(0, 0, 0, 0)
