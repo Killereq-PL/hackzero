@@ -1,9 +1,11 @@
 import os, sys
+from datetime import datetime
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QGridLayout, QVBoxLayout, QHBoxLayout, QStackedLayout, QScrollArea, QGraphicsBlurEffect
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
 from hackzero.ui.FlatButton import FlatButton
 from hackzero.ui.ListButtonView import ListButtonView
+from hackzero.db.AppsDB import AppsDB
 
 class Main(QWidget):
     def install_apps(self):
@@ -40,6 +42,7 @@ class Main(QWidget):
         layout = QVBoxLayout()
         layout.setContentsMargins(20, 20, 20, 20)
         layout.setSpacing(5)
+        '''
         lbv_data = [
             {
             'title': 'Example1',
@@ -106,9 +109,39 @@ class Main(QWidget):
                     },
                     'shown': True
                 }
-            },
+            }
         }
-        
+        '''
+        apps_db = AppsDB()
+        lbv_data = []
+        for x in apps_db.get_apps():
+            id           = x[0]
+            name         = x[1]
+            description  = x[2]
+            category     = x[3]
+            author       = x[4]
+            version      = x[5]
+            installed_at = x[6]
+            updated_at   = x[7]
+            
+            lbv_data.append({
+                'title': name,
+                'icon': 'icon128.png',
+                'description': description,
+                'category': category,
+                'author': author,
+                'version': version
+            })
+        lbv_settings = {
+            'categories': {
+                'Examples': {
+                    'columns': {
+                        'title': {'width': 200},
+                        'description': {'width': 400}
+                    },
+                    'shown': True
+                }
+            }}
         lbv = ListButtonView(lbv_data, True, lbv_settings)
         lbv.setContentsMargins(0, 0, 0, 0)
         lbv.refresh_items()
