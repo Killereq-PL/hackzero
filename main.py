@@ -121,16 +121,18 @@ class Main(QWidget):
             category     = x[3]
             author       = x[4]
             version      = x[5]
-            installed_at = x[6]
-            updated_at   = x[7]
+            icon_path    = x[6]
+            path         = x[7]
+            installed_at = x[8]
+            updated_at   = x[9]
             
             lbv_data.append({
                 'title': name,
-                'icon': 'icon128.png',
                 'description': description,
                 'category': category,
                 'author': author,
-                'version': version
+                'version': version,
+                'icon': "icon128.png" if icon_path == None or icon_path == "" else os.path.join(path, icon_path),
             })
         lbv_settings = {
             'categories': {

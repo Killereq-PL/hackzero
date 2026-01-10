@@ -1,5 +1,7 @@
 from datetime import datetime
 import sqlite3
+import json
+import os
 
 class AppsDB():
     def __init__(self, path='apps/app.db', schema_path='schema/app_schema.sql'):
@@ -13,27 +15,27 @@ class AppsDB():
             self.cursor.executescript(f.read())
         self.conn.commit()
     
-    def install_app(self, name, description, category, author="Default", version="1.0"):
+    def install_app(self, name, description, category, path, author="Unknown", version="1.0", icon_path=None):
         """Install application to db"""
         sql = """
-        INSERT INTO apps (name, description, category, author, version, updated_at, last_used_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO apps (name, description, category, author, version, icon_path, path, updated_at, last_used_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         """
         now = datetime.now().isoformat()
-        self.cursor.execute(sql, (name, description, category, author, version, now, now))
+        self.cursor.execute(sql, (name, description, category, author, version, icon_path, path, now, now))
         self.conn.commit()
         return self.cursor.lastrowid
 
-    def store_executable(self, app_id, path=None, execution_type=None, instructions=None):
+    def store_executable(self, app_id, option_name=None, path=None, execution_type=None, instructions=None):
         """Store executable information"""
         sql = """
         INSERT INTO executable_info 
-        (app_id, path, execution_type, instructions)
-        VALUES (?, ?, ?, ?)
+        (app_id, option_name, path, execution_type, instructions)
+        VALUES (?, ?, ?, ?, ?)
         """
         now = datetime.now().isoformat()
         self.cursor.execute(sql, (
-            app_id, path, execution_type, instructions
+            app_id, option_name, path, execution_type, instructions
         ))
         self.conn.commit()
         return self.cursor.lastrowid
@@ -55,6 +57,34 @@ class AppsDB():
         sql = "SELECT * FROM apps"
         self.cursor.execute(sql)
         return self.cursor.fetchall()
+    
+    def install_app_from_manifest(self, path):
+        """Install app from manifest file"""
+        try:
+            with open(path, 'r') as f:
+                manifest: dict = json.load(f)
+                m_app: dict = manifest.get("app", {})
+                app_id = self.install_app(
+                    name=m_app.get("name", "Unnamed App"),
+                    description=m_app.get("description", ""),
+                    category=m_app.get("category", None),
+                    author=m_app.get("author", "Unknown"),
+                    version=m_app.get("version", "1.0"),
+                    icon_path=m_app.get("icon_path", None),
+                    path=os.path.dirname(path)
+                )
+                m_exes: list = manifest.get("executables", [])
+                for m_exe in m_exes:
+                    self.store_executable(
+                        app_id=app_id,
+                        option_name=m_exe.get("option_name", None),
+                        path=m_exe.get("path", "/"),
+                        execution_type=m_exe.get("execution_type", "shell"),
+                        instructions=m_exe.get("instructions", "")
+                    )
+                return app_id
+        except OSError as e:
+            print(f"Manifest missing <{e}>")
 
 if __name__ == "__main__":
     db = AppsDB('D:/Github/hackzero/apps/app.db', 'D:/Github/hackzero/schema/app_schema.sql')
@@ -62,19 +92,7 @@ if __name__ == "__main__":
     i = input("Install Timer app? (y/n): ")
     
     if i.lower() == 'y':
-        app_id = db.install_app(
-            name="Timer",
-            description="Basic Timer Example",
-            category="Examples",
-            author="Example",
-            version="1.0"
-        )
-        db.store_executable(
-            app_id=app_id,
-            path="apps/Timer",
-            execution_type="shell",
-            instructions="python main.py"
-        )
+        app_id = db.install_app_from_manifest('D:/Github/hackzero/apps/Timer/manifest.json')
         print(f"Installed Timer app with ID: {app_id}")
     else:
         app_id = int(input("Enter app ID to fetch: "))
@@ -82,3 +100,25 @@ if __name__ == "__main__":
         exec_info = db.get_executable_info(app_id)
         print("App Info:", app_info)
         print("Executable Info:", exec_info)
+    
+    #if i.lower() == 'y':
+    #    app_id = db.install_app(
+    #        name="Timer",
+    #        description="Basic Timer Example",
+    #        category="Examples",
+    #        author="Example",
+    #        version="1.0"
+    #    )
+    #    db.store_executable(
+    #        app_id=app_id,
+    #        path="/",
+    #        execution_type="shell",
+    #        instructions="python main.py"
+    #    )
+    #    print(f"Installed Timer app with ID: {app_id}")
+    #else:
+    #    app_id = int(input("Enter app ID to fetch: "))
+    #    app_info = db.get_app_info(app_id)
+    #    exec_info = db.get_executable_info(app_id)
+    #    print("App Info:", app_info)
+    #    print("Executable Info:", exec_info)

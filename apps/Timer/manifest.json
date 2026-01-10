@@ -1,0 +1,16 @@
+{
+    "app": {
+        "name": "Timer",
+        "description": "Basic Timer Example",
+        "category": "Examples",
+        "author": "Example",
+        "version": "1.0"
+    },
+    "executables": [
+        {
+            "path": "/",
+            "execution_type": "shell",
+            "instructions": "python main.py"
+        }
+    ]
+}
