@@ -100,25 +100,3 @@ if __name__ == "__main__":
         exec_info = db.get_executable_info(app_id)
         print("App Info:", app_info)
         print("Executable Info:", exec_info)
-    
-    #if i.lower() == 'y':
-    #    app_id = db.install_app(
-    #        name="Timer",
-    #        description="Basic Timer Example",
-    #        category="Examples",
-    #        author="Example",
-    #        version="1.0"
-    #    )
-    #    db.store_executable(
-    #        app_id=app_id,
-    #        path="/",
-    #        execution_type="shell",
-    #        instructions="python main.py"
-    #    )
-    #    print(f"Installed Timer app with ID: {app_id}")
-    #else:
-    #    app_id = int(input("Enter app ID to fetch: "))
-    #    app_info = db.get_app_info(app_id)
-    #    exec_info = db.get_executable_info(app_id)
-    #    print("App Info:", app_info)
-    #    print("Executable Info:", exec_info)
