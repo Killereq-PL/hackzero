@@ -2,6 +2,7 @@ import os, sys
 from PyQt5.QtWidgets import QApplication, QWidget, QStackedLayout
 from PyQt5.QtCore import Qt
 from hackzero import menus
+from hackzero.db.AppsDB import AppsDB
 
 class Main(QWidget):
     def exit(self):
@@ -42,6 +43,8 @@ class Main(QWidget):
         self.main_layout = QStackedLayout()
         self.main_layout.setContentsMargins(0, 0, 0, 0)
         self.main_layout.setSpacing(0)
+        
+        self.apps_db = AppsDB()
         
         self.menus = {}
         self.create_menus()

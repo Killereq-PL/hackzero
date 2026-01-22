@@ -114,7 +114,8 @@ class LoadApp(AbstractMenu):
             }
         }
         '''
-        apps_db = AppsDB()
+        assert(isinstance(main.apps_db, AppsDB))
+        apps_db: AppsDB = main.apps_db
         lbv_data = []
         for x in apps_db.get_apps():
             id           = x[0]
