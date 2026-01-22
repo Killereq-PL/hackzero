@@ -1,9 +1,6 @@
-from ast import Constant
-import os, sys
-from datetime import datetime
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QGridLayout, QVBoxLayout, QHBoxLayout, QStackedLayout, QScrollArea, QGraphicsBlurEffect
+import os
+from PyQt5.QtWidgets import QWidget, QGridLayout, QVBoxLayout, QHBoxLayout, QStackedLayout, QScrollArea, QGraphicsBlurEffect
 from PyQt5.QtGui import QFont
-from PyQt5.QtCore import Qt
 from hackzero.ui.FlatButton import FlatButton
 from hackzero.ui.ListButtonView import ListButtonView
 from hackzero.db.AppsDB import AppsDB
@@ -39,6 +36,8 @@ class Main(AbstractMenu):
 class LoadApp(AbstractMenu):
     id = "load_app"
     def create(self, main: QWidget) -> None:
+        def load_app(self) -> None:
+            print("Load App")
         stacked_layout = QStackedLayout()
         stacked_layout.setContentsMargins(0, 0, 0, 0)
         stacked_layout.setStackingMode(QStackedLayout.StackingMode.StackAll)
@@ -204,7 +203,7 @@ class LoadApp(AbstractMenu):
         widget2.setLayout(popup_layout)
         widget2.setStyleSheet("background-color: rgba(0, 0, 0, 0.7);")
         widget2.hide()
-        button1.clicked.connect(lambda: main.load_app())
+        button1.clicked.connect(lambda: load_app())
         button2.clicked.connect(lambda: print("Configure App clicked"))
         def hide_popup():
             widget2.hide()
@@ -224,11 +223,13 @@ class LoadApp(AbstractMenu):
 class InstallApp(AbstractMenu):
     id = "install_app"
     def create(self, main: QWidget) -> None:
+        def install_apps(self) -> None:
+            print("Install App(s)")
         layout = QVBoxLayout()
         layout.setContentsMargins(20, 20, 20, 20)
         layout.setSpacing(5)
         install_button = FlatButton("Install App(s)")
-        install_button.clicked.connect(main.install_apps)
+        install_button.clicked.connect(install_apps)
         layout.addWidget(install_button)
         back = FlatButton("Back")
         back.clicked.connect(lambda: main.open_menu("main"))

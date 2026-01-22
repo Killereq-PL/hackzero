@@ -1,20 +1,9 @@
-import os, sys, shutil
-from datetime import datetime
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QGridLayout, QVBoxLayout, QHBoxLayout, QStackedLayout, QScrollArea, QGraphicsBlurEffect
-from PyQt5.QtGui import QFont
+import os, sys
+from PyQt5.QtWidgets import QApplication, QWidget, QStackedLayout
 from PyQt5.QtCore import Qt
 from hackzero import menus
-from hackzero.ui.FlatButton import FlatButton
-from hackzero.ui.ListButtonView import ListButtonView
-from hackzero.db.AppsDB import AppsDB
 
 class Main(QWidget):
-    def install_apps(self) -> None:
-        print("Install App(s)")
-    
-    def load_app(self) -> None:
-        print("Load App")
-    
     def exit(self):
         print("Exiting...")
         sys.exit(0)

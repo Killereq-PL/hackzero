@@ -1,10 +1,9 @@
-from PyQt5.QtWidgets import QScrollArea, QApplication, QVBoxLayout, QWidget
+from PyQt5.QtWidgets import QScrollArea, QVBoxLayout, QWidget
 from PyQt5.QtCore import Qt
 
 from hackzero.ui.ListButtonViewItem import ListButtonViewItem
 from hackzero.ui.ListButtonViewCategory import ListButtonViewCategory
 
-import sys
 
 class ListButtonView(QScrollArea):
     def __init__(self, data : list = [], has_categories = False, settings : dict = {}, *args, **kwargs):
