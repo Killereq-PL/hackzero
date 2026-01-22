@@ -2,6 +2,8 @@ from gpiozero import Button
 import keyboard
 import mouse
 
+#### You can modify these ####
+
 # GPIO Pins
 UP_PIN = 0
 DOWN_PIN = 1
@@ -11,6 +13,8 @@ OK_PIN = 4
 MODE_SWITCH_PIN = 5
 
 MODE_SWITCH_TOGGLE = True # True for toggle mode, False for hold (switch) mode
+
+##############################
 
 class DpadInput():
     def __init__(self):
